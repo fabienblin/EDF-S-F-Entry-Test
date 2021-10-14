@@ -28,8 +28,8 @@ The EMS objective is to ensure that the industrial site power consumption remain
 
 **ESS variables**
 - Pess : current ESS active power output in kW (AC side) (< 0 means charge / > 0 means discharge )
-- Pmaxch : current ESS maximal charge power capability in kW (AC side, necessarily <=  by convention)
-- Pmaxdisch: current ESS maximal discharge power capability in kW (AC side, ecessarily >= 0 by convention)
+- Pmaxch : current ESS maximal charge power capability in kW (AC side, necessarily <= 0 by convention)
+- Pmaxdisch: current ESS maximal discharge power capability in kW (AC side, necessarily >= 0 by convention)
 - Eess: current ESS stored energy in kWh (necessarily >= 0 by convention)
 - setpointPEss: active power setpoint computed by the EMS in kW (AC side, <0 for charge setpoint, >0 for discharge setpoint)
 
