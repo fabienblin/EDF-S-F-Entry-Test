@@ -19,9 +19,11 @@ At the point of connection (POC) with the grid, the meter measures `Ppoc` the po
 The EMS objective is to ensure that the industrial site power consumption remains under a maximal value PmaxSite, and that not electricity is injected to the grid. This means `PmaxSite < Ppoc <= 0`
 
 **Sign convention used**
-• `P < 0` for power consumption
-• `P > 0` for power production
+- `P < 0` for power consumption
+- `P > 0` for power production
+
 * * *
+
 **Variables description:**
 
 **ESS variables**
