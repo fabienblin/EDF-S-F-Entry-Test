@@ -1,7 +1,7 @@
 # EDF-S&F-Entry-Test
-Technical test of EDF Store &amp; Forecast for job interview
+Job interview exercise, October 14 2021
 
-**Problem description**
+## Problem description
 
 You have to develop the core algorithm of an EMS that controls an industrial site smart grid.
 
@@ -24,7 +24,7 @@ The EMS objective is to ensure that the industrial site power consumption remain
 
 * * *
 
-**Variables description:**
+## Variables description:
 
 **ESS variables**
 - Pess : current ESS active power output in kW (AC side) (< 0 means charge / > 0 means discharge )
@@ -36,8 +36,7 @@ The EMS objective is to ensure that the industrial site power consumption remain
 **PV variables**
 - Ppv: current PV inverter active power output in W (AC side, necessarily >= 0 by convention)
 - Pprod: current PV production estimation from pyranometer in W (DC side)
-- setpointPPv: PV inverter active power setpoint computed by the EMS in W (AC side, necessarily >= 0
-by convention)
+- setpointPPv: PV inverter active power setpoint computed by the EMS in W (AC side, necessarily >= 0 by convention)
 
 **POC meter variables**
 - Ppoc: current active power measure at POC in kW (< 0 means smart grid draws power from the grid, > 0 means smart grid injects power to grid), expected to be `PmaxSite < Ppoc <= 0`
@@ -56,11 +55,14 @@ setpoints to equipment EMS can control:
 - `SetPvSetpoint(setpointPPv)` sends `setpointPPv` to PV inverter
 
 You can use the development language of your choice.
+
 Please note we do not focus on language syntax here, we also do not expect the code you write to be
 executable, or having a program with hundred of lines. Also keep in mind that this is an open problem:
 there is no expected solution.
+
 The key point for us is trying to get an global idea on how do you address such a problem, how do you
 present your code, on what details you choose to focus. So don’t hesitate:
+
 - to add any comment that could help us to have a better understanding on what assumptions you
 make
 - to make use of functions that you do not implement, as long as you describe its interface and its
