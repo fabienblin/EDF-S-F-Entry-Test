@@ -1,2 +1,4 @@
 ./bin
 EMS_sheme.odg
+./.vscode
+./pkg
