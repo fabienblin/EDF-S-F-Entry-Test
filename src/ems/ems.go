@@ -35,7 +35,6 @@ func (ems *emsEnv) getPocMeterMeasure() *Poc {
 	return ems.poc
 }
 
-var _ = Void
 func main() {
 	var w Watt = 0
 
