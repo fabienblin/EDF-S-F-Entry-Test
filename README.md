@@ -70,5 +70,5 @@ behavior
 
 ***
 
-![Alt text](./EMS sheme.svg)
-<img src="./EMS scheme.svg">
+![Alt text](./EMS_sheme.svg)
+<img src="./EMS_scheme.svg">
