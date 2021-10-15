@@ -3,10 +3,7 @@ ESS=ess.exe
 POC=poc.exe
 PV=pv.exe
 
-env:
-	@export GOPATH=${pwd}
-
-all:	env dependencies
+all:	dependencies
 	mkdir -p bin
 	go build -o ./bin/$(EMS) ./src/ems/ems.go
 	go build -o ./bin/$(ESS) ./src/ess/ess.go
