@@ -67,3 +67,7 @@ present your code, on what details you choose to focus. So don’t hesitate:
 make
 - to make use of functions that you do not implement, as long as you describe its interface and its
 behavior
+
+***
+
+![Alt text](./EMS sheme.svg)
