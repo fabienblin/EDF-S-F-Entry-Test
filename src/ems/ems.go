@@ -2,41 +2,41 @@ package main
 
 import (
 	"fmt"
-	. "emslib"
+	. "libs/emslib"
+	"libs/environment"
 )
 
-// EMS definition
+func initEnv() *Ems{
+	// ess := new(Ess)
+	// pv := new(Pv)
+	// poc := new(Poc)
+	ems := new(Ems)
 
-type emsEnv struct {
-	ess  *Ess
-	pv   *Pv
-	poc  *Poc
-	PEss Watt
-	PPv  Watt
-}
+	// ems.ess = ess
+	// ems.pv = pv
+	// ems.poc = poc
 
-func (ems *emsEnv) setpointPEss(setpointPEss Watt) {
-	ems.PEss = setpointPEss
-}
-
-func (ems *emsEnv) setpointPPv(setpointPPv Watt) {
-	ems.PPv = setpointPPv
-}
-
-func (ems *emsEnv) getEssMeasure() *Ess {
-	return ems.ess
-}
-
-func (ems *emsEnv) getPvMeasure() *Pv {
-	return ems.pv
-}
-
-func (ems *emsEnv) getPocMeterMeasure() *Poc {
-	return ems.poc
+	return ems
 }
 
 func main() {
-	var w Watt = 0
+	ems := initEnv()
+	var userInput string
+	
+	for true {
+		// get user input
+		fmt.Println("Press a key to process time cycle.")
+		fmt.Scanln(&userInput)
 
-	fmt.Println(w)
+		//Read power productions and demands
+		
+		// core AI descision making
+		
+		// show all power levels
+		fmt.Println("Current time : ", environment.GetHour())
+		ems.Print()
+
+		// add 1 hour to day/night cycle
+		environment.NextHour()
+	}
 }
