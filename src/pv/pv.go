@@ -6,6 +6,11 @@ import (
 	"fmt"
 )
 
+type Pv struct {
+	Ppv   Watt
+	Pprod WattPerSqrMeter
+}
+
 // constants can be changed to create production scenarios
 const nbSolarPanels int = 100
 const solarPanelSurface int = 6
@@ -34,6 +39,6 @@ func SimulatePv(pv *Pv) {
 	pv.Pprod = simulatePprod()
 }
 
-func ShowPv(pv *Pv){
-	fmt.Println("Pv : Ppv : ", pv.Ppv, "W ; Pprod : ", pv.Pprod, "W/m²")
+func (pv *Pv) Show (){
+	fmt.Println(" Pv : Ppv : ", pv.Ppv, "W ; Pprod : ", pv.Pprod, "W/m²")
 }

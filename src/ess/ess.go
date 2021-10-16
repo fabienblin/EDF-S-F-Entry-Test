@@ -8,6 +8,13 @@ import (
 	// "time"
 )
 
+type Ess struct {
+	Pess      KWatt
+	Pmaxch    KWatt
+	Pmaxdisch KWatt
+	Eess      KWattHour
+}
+
 // constants can be changed to create scenarios
 const nbPowerBank int = 10
 const powerBankCapacity KWattHour = 1.5
@@ -24,8 +31,8 @@ func InitializeEss(ess *Ess){
 	ess.Eess = randomizeEssCharge()
 }
 
-func ShowEss(ess *Ess){
-	fmt.Print("Ess : ")
+func (ess *Ess) Show() {
+	fmt.Print(" Ess : ")
 	fmt.Print("Pess : ", ess.Pess, "kW ; ")
 	fmt.Print("Pmaxch : ", ess.Pmaxch, "kW ; ")
 	fmt.Print("Pmaxdisch : ", ess.Pmaxdisch, "kW ; ")

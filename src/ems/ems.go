@@ -1,42 +1,63 @@
-package main
+package ems
 
 import (
 	"fmt"
 	. "libs/emslib"
-	"libs/environment"
+	"ess"
+	"pv"
+	"poc"
 )
 
-func initEnv() *Ems{
-	// ess := new(Ess)
-	// pv := new(Pv)
-	// poc := new(Poc)
-	ems := new(Ems)
-
-	// ems.ess = ess
-	// ems.pv = pv
-	// ems.poc = poc
-
-	return ems
+type Ems struct {
+	Ess  *ess.Ess
+	Pv   *pv.Pv
+	Poc  *poc.Poc
+	Pess Watt
+	Ppv  Watt
 }
 
-func main() {
-	ems := initEnv()
-	var userInput string
+func (ems *Ems) SetpointPEss(setpointPEss Watt) {
+	ems.Pess = setpointPEss
+}
+
+func (ems *Ems) SetpointPPv(setpointPPv Watt) {
+	ems.Ppv = setpointPPv
+}
+
+func (ems *Ems) GetEssMeasure() *ess.Ess {
+	return ems.Ess
+}
+
+func (ems *Ems) GetPvMeasure() *pv.Pv {
+	return ems.Pv
+}
+
+func (ems *Ems) GetPocMeterMeasure() *poc.Poc {
+	return ems.Poc
+}
+
+func (ems *Ems) Show() {
+	fmt.Println("EMS {")
+	ems.Ess.Show()
+	ems.Pv.Show()
+	ems.Poc.Show()
+	fmt.Println(" pEss : ", ems.Pess)
+	fmt.Println(" pPv  : ", ems.Ppv)
+	fmt.Println("}")
+}
+
+func IntializeEms() *Ems{
+	var ems *Ems = new(Ems)
 	
-	for true {
-		// get user input
-		fmt.Println("Press a key to process time cycle.")
-		fmt.Scanln(&userInput)
+	var ESS *ess.Ess = new(ess.Ess)
+	var poc *poc.Poc = new(poc.Poc)
+	var pv *pv.Pv = new(pv.Pv)
 
-		//Read power productions and demands
-		
-		// core AI descision making
-		
-		// show all power levels
-		fmt.Println("Current time : ", environment.GetHour())
-		ems.Print()
+	ems.Ess = ESS
+	ems.Poc = poc
+	ems.Pv = pv
 
-		// add 1 hour to day/night cycle
-		environment.NextHour()
-	}
+	ess.InitializeEss(ems.Ess)
+
+	return ems
 }

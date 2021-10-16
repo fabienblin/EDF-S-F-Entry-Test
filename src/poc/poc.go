@@ -1,12 +1,14 @@
-package main
+package poc
 
 import (
 	"fmt"
 	. "libs/emslib"
-	"libs/environment"
 	"math/rand"
-	"time"
 )
+
+type Poc struct {
+	Ppoc KWatt
+}
 
 // protected var must not be used other than with simulateFacilityConsumption() for exercice purposes
 var facilityConsumption KWatt
@@ -20,21 +22,6 @@ func simulatePpoc() KWatt {
 	return 0
 }
 
-func main() {
-	rand.Seed(time.Now().UTC().UnixNano())
-	var poc *Poc = new(Poc)
-	var userInput string
-
-	for true {
-		fmt.Println("Press a key to process time cycle.")
-		fmt.Scanln(&userInput)
-
-		simulateFacilityConsumption()
-
-		poc.Ppoc = simulatePpoc()
-		fmt.Println(poc)
-		
-		environment.NextHour()
-	}
-
+func (poc *Poc) Show() {
+	fmt.Println(" Poc : Ppoc : ", poc.Ppoc, "W")
 }
