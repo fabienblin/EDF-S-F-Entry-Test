@@ -1,12 +1,12 @@
-package main
+package pv
 
 import (
-	"fmt"
 	. "libs/emslib"
 	"libs/environment"
+	"fmt"
 )
 
-// global constants can be changed to create production scenarios
+// constants can be changed to create production scenarios
 const nbSolarPanels int = 100
 const solarPanelSurface int = 6
 const solarTransformationEfficiency float64 = 0.2
@@ -16,10 +16,10 @@ func simulatePpv() Watt{
 	return Watt(environment.GetSunShine() * solarTransformationEfficiency * float64(nbSolarPanels))
 }
 
-// simulates pyranometer's power output estimate in watts/m² for all solar panels
+// simulates pyranometer's power output estimate in watts/m² (arbitrary value)
 // IRL this is a measure, not a calculation
-func simulatePprod() float64{
-	return environment.GetSunShine() / float64(solarPanelSurface * nbSolarPanels)
+func simulatePprod() WattPerSqrMeter{
+	return WattPerSqrMeter(environment.GetSunShine() * 10)
 }
 
 // if we had motorized solar panels, the sun's hour angle would be usefull: https://en.wikipedia.org/wiki/Sunrise_equation
@@ -28,19 +28,12 @@ func sunHourAngle(hour int) int{
 	return 0
 }
 
-func main() {
-	var pv *Pv = new(Pv)
-	var userInput string
+// define PV variables depending on environment conditions
+func SimulatePv(pv *Pv) {
+	pv.Ppv = simulatePpv()
+	pv.Pprod = simulatePprod()
+}
 
-	for true {
-		fmt.Println("Press a key to process time cycle.")
-		fmt.Scanln(&userInput)
-
-		pv.Ppv = simulatePpv()
-		pv.Pprod = simulatePprod()
-		fmt.Println(pv)
-		environment.ShowEnvironment()
-		
-		environment.NextHour()
-	}
+func ShowPv(pv *Pv){
+	fmt.Println("Pv : Ppv : ", pv.Ppv, "W ; Pprod : ", pv.Pprod, "W/m²")
 }

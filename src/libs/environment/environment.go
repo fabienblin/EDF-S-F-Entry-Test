@@ -27,9 +27,9 @@ func ShowEnvironment() {
 	} else {
 		fmt.Println("ENVIRONMENT {")
 		fmt.Println(" hour         : ", hour)
-		fmt.Println(" dayWeather   : ", dayWeather)
-		fmt.Println(" hourWeather  : ", hourWeather)
-		fmt.Println(" sunShine     : ", sunShine)
+		fmt.Println(" dayWeather   : ", dayWeather, "%")
+		fmt.Println(" hourWeather  : ", hourWeather, "%")
+		fmt.Println(" sunShine     : ", sunShine, "%")
 		fmt.Println("}")
 	}
 }
@@ -88,8 +88,8 @@ func simulateSunShine() {
 	}
 
 	simSunShine = simSunShine * 100 // range 0.0 to 100.0
-	
-	simSunShine = simSunShine - (simSunShine * hourWeather) / 100 // apply weather conditions
+
+	simSunShine = simSunShine * (hourWeather / 100)  // apply weather conditions
 
 	sunShine = simSunShine
 }
@@ -97,7 +97,6 @@ func simulateSunShine() {
 // ranges from 20 (verry bad weather) to 100 (perfect weather)
 func simulateDayWeather() {
 	dayWeather = (rand.Float64() + 0.2) * 100
-	fmt.Println(dayWeather)
 	if dayWeather > 100 {
 		dayWeather = 100
 	}

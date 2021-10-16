@@ -1,28 +1,33 @@
-package main
+package ess
 
 import (
 	"fmt"
 	. "libs/emslib"
-	"libs/environment"
+	// "libs/environment"
 	"math/rand"
-	"time"
+	// "time"
 )
 
+// constants can be changed to create scenarios
+const nbPowerBank int = 10
+const powerBankCapacity KWattHour = 1.5
 
-func main() {
-	rand.Seed(time.Now().UTC().UnixNano())
-	var userInput string
-	var ess *Ess = new(Ess)
+// for initialization
+func randomizeEssCharge() KWattHour{
+	return KWattHour(rand.Float64()) * powerBankCapacity * KWattHour(nbPowerBank)
+}
 
-	for true {
-		fmt.Println("Press a key to process time cycle.")
-		fmt.Scanln(&userInput)
+func InitializeEss(ess *Ess){
+	ess.Pess = 0
+	ess.Pmaxch = .5
+	ess.Pmaxdisch = .7
+	ess.Eess = randomizeEssCharge()
+}
 
-		ess.Pess = simulatePess()
-		ess.Pmaxch = simulatePmaxch()
-		ess.Pmaxdisch = simulatePmaxdisch()
-		ess.Eess = simulateEess()
-
-		environment.NextHour()
-	}
+func ShowEss(ess *Ess){
+	fmt.Print("Ess : ")
+	fmt.Print("Pess : ", ess.Pess, "kW ; ")
+	fmt.Print("Pmaxch : ", ess.Pmaxch, "kW ; ")
+	fmt.Print("Pmaxdisch : ", ess.Pmaxdisch, "kW ; ")
+	fmt.Println("Eess : ", ess.Eess, "kWh")
 }

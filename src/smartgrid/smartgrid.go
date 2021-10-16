@@ -6,8 +6,9 @@ import (
 	"libs/environment"
 	"math/rand"
 	"time"
+	"pv"
+	"ess"
 )
-
 
 func intializeEms() *Ems{
 	var ems *Ems = new(Ems)
@@ -27,16 +28,20 @@ func main () {
 	rand.Seed(time.Now().UTC().UnixNano())
 	var userInput string
 	ems := intializeEms()
+	ess.InitializeEss(ems.Ess)
 
 	for true {
-		//Read power productions and demands
-		// ceci est completement con :
-		ems.Ess = ems.GetEssMeasure()
-		ems.Pv = ems.GetPvMeasure()
-		ems.Poc = ems.GetPocMeterMeasure()
+		// simulate PV production
+		pv.SimulatePv(ems.Pv)
+		
+		// read power productions and demands
+		
 		// core AI descision making
 		
 		// show all power levels
+		environment.ShowEnvironment()
+		pv.ShowPv(ems.Pv)
+		ess.ShowEss(ems.Ess)
 
 		// next hour on user input
 		fmt.Println("Press a key to process time cycle.")
