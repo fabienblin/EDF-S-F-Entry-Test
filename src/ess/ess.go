@@ -23,10 +23,11 @@ func randomizeEssCharge() KWattHour{
 	return KWattHour(rand.Float64()) * essCapacity
 }
 
+// arbitrary Pmaxch and Pmaxdisch
 func InitializeEss(ess *Ess){
 	ess.Pess = 0
-	ess.Pmaxch = .5
-	ess.Pmaxdisch = .7
+	ess.Pmaxch = 1
+	ess.Pmaxdisch = 1
 	if essChargeQuery() {
 		ess.Eess = randomizeEssCharge()
 	}
