@@ -27,12 +27,6 @@ func simulatePprod() WattPerSqrMeter{
 	return WattPerSqrMeter(environment.GetSunShine() * 10)
 }
 
-// if we had motorized solar panels, the sun's hour angle would be usefull: https://en.wikipedia.org/wiki/Sunrise_equation
-// tracking the sun's position in the sky would allow to optimize the solarTransformationEfficiency
-func sunHourAngle(hour int) int{
-	return 0
-}
-
 // define PV variables depending on environment conditions
 func SimulatePv(pv *Pv) {
 	pv.Ppv = simulatePpv()

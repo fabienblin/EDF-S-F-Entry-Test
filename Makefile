@@ -6,11 +6,11 @@ SMARTGRID=smartgrid.exe
 
 all:	dependencies
 	mkdir -p bin
-	go build -o ./bin/$(EMS) ./src/ems/ems.go
-	# go build -o ./bin/$(ESS) ./src/ess/ess.go
-	go build -o ./bin/$(POC) ./src/poc/poc.go
-	go build -o ./bin/$(SMARTGRID) ./src/smartgrid/smartgrid.go
-	#go build -o ./bin/$(PV) ./src/pv/pv.go
+	go build -o ./bin/$(SMARTGRID) ./src/smartgrid.go
+	# go build -o ./bin/$(EMS) ./src/ems.go
+	# go build -o ./bin/$(ESS) ./src/ess.go
+	# go build -o ./bin/$(POC) ./src/poc.go
+	# go build -o ./bin/$(PV) ./src/pv.go
 	@echo "SUCCESFULL COMPILATION"
 	@echo "run ./bin/ems.exe"
 	
