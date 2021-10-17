@@ -70,5 +70,12 @@ behavior
 
 ***
 
+## Smart-Grid Sheme
+
 ![Alt text](./EMS_sheme.svg)
-<img src="./EMS_scheme.svg">
+
+***
+
+## Sunshine Simulator
+
+![Alt text](./sunshine_sinusoid.png)
