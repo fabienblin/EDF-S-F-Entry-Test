@@ -4,11 +4,8 @@ import(
 	"fmt"
 	"math"
 	"math/rand"
-	"time"
 )
 
-// initialization var
-var initial bool = true
 // hour of the day ranges between 0 and 23
 // protected variable (read only) accessible via GetHour()
 var hour int
@@ -22,38 +19,18 @@ var sunShine float64
 
 
 func ShowEnvironment() {
-	if initial {
-		fmt.Println("Initializing...")
-	} else {
-		fmt.Println("ENVIRONMENT {")
-		fmt.Println(" hour         : ", hour)
-		fmt.Println(" dayWeather   : ", dayWeather, "%")
-		fmt.Println(" hourWeather  : ", hourWeather, "%")
-		fmt.Println(" sunShine     : ", sunShine, "%")
-		fmt.Println("}")
-	}
+	fmt.Println("ENVIRONMENT {")
+	fmt.Println(" hour         : ", hour)
+	fmt.Println(" dayWeather   : ", dayWeather, "%")
+	fmt.Println(" hourWeather  : ", hourWeather, "%")
+	fmt.Println(" sunShine     : ", sunShine, "%")
+	fmt.Println("}")
 }
 
 // Add an hour to day/night cycle and update dayWeather every 24h
 // returns updated hour
 func NextHour() {
-	// simulations order matters
-	// 0: increment hour
-	// 1: simulateDayWeather
-	// 2: simulateHourWeather
-	// 3: simulateSunShine
-
-	if initial == false { // setHour(+1) starts at second cycle for initialization surposes
-		setHour(hour + 1)
-	} else {
-		rand.Seed(time.Now().UTC().UnixNano())
-	}
-	initial = false
-	if hour == 0 { // every 24h
-		simulateDayWeather()
-	}
-	simulateHourWeather()
-	simulateSunShine()
+	setHour(hour + 1)
 }
 
 func GetHour() int{
@@ -64,7 +41,6 @@ func GetSunShine() float64{
 	return sunShine
 }
 
-// protected function
 // returns updated hour
 func setHour(time int) int {
 	if time <= 24 && time >= 0 {
@@ -105,4 +81,17 @@ func simulateDayWeather() {
 // makes small variations (20% max) to the dayWeather, ranges from 16 to 80
 func simulateHourWeather() {
 	hourWeather = dayWeather - (dayWeather * rand.Float64() * 0.2)
+}
+
+func SimulateEnvironment() {
+	// simulations order matters
+	// 1: simulateDayWeather
+	// 2: simulateHourWeather
+	// 3: simulateSunShine
+
+	if hour == 0 { // every 24h
+		simulateDayWeather()
+	}
+	simulateHourWeather()
+	simulateSunShine()
 }

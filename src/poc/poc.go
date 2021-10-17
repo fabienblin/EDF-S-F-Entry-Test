@@ -11,17 +11,29 @@ type Poc struct {
 }
 
 // protected var must not be used other than with simulateFacilityConsumption() for exercice purposes
-var facilityConsumption KWatt
+var pload KWatt
 
-// ranging from 0 to 5 kW
-func simulateFacilityConsumption() {
-	facilityConsumption =  KWatt(rand.Float64()) * 5
+// deifine hidden pload, ranging from 0 to 5 kW
+func simulatePload() {
+	pload = KWatt(rand.Float64()) * 5
 }
 
-func simulatePpoc() KWatt {
-	return 0
+// simulate visible Ppoc
+func (poc *Poc) simulatePpoc(pAcBus KWatt) {
+	poc.Ppoc = pAcBus + pload
+}
+
+func (poc *Poc) SimulatePoc(pAcBus KWatt) {
+	simulatePload()
+	poc.simulatePpoc(pAcBus)
 }
 
 func (poc *Poc) Show() {
-	fmt.Println(" Poc : Ppoc : ", poc.Ppoc, "W")
+	fmt.Println(" POC { Ppoc :", poc.Ppoc, "kW }")
+}
+
+func ShowFacility() {
+	fmt.Println("FACILITY {")
+	fmt.Println(" Pload :", pload, "kW")
+	fmt.Println("}")
 }

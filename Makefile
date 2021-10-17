@@ -1,28 +1,23 @@
-EMS=ems.exe
-ESS=ess.exe
-POC=poc.exe
-PV=pv.exe
-SMARTGRID=smartgrid.exe
+BINARY=smartgrid.exe
 
 all:	dependencies
-	mkdir -p bin
-	go build -o ./bin/$(SMARTGRID) ./src/smartgrid.go
-	# go build -o ./bin/$(EMS) ./src/ems.go
-	# go build -o ./bin/$(ESS) ./src/ess.go
-	# go build -o ./bin/$(POC) ./src/poc.go
-	# go build -o ./bin/$(PV) ./src/pv.go
+	@echo "Build project :"
+	@mkdir -p bin
+	go build -o ./bin/$(BINARY) ./src/smartgrid.go
 	@echo "SUCCESFULL COMPILATION"
-	@echo "run ./bin/ems.exe"
+	@echo "\n\tRun ./bin/$(BINARY)\n"
 	
 
 clean:
-	rm -rf ./bin
+	@echo "Removing binaries..."
+	@rm -rf ./bin
 
 re : clean all
 
 dependencies:
-#	go get -u gonum.org/v1/gonum
-#	go get -u gonum.org/v1/plot
+	@echo "Downloading dependencies..."
+	go get -u github.com/fatih/color
 
 test: re
-	./bin/$(EMS)
+	@echo "Auto run $(BINARY)."
+	@./bin/$(BINARY)
