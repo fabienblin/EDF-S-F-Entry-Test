@@ -15,18 +15,16 @@ type Ems struct {
 	Ess  *ess.Ess
 	Pv   *pv.Pv
 	Poc  *poc.Poc
-	Pess Watt
-	Ppv  Watt
 }
 
 // define ESS power output to smart grid
-func (ems *Ems) SetpointPEss(setpointPEss Watt) {
-	ems.Pess = setpointPEss
+func (ems *Ems) SetpointPEss(setpointPEss KWatt) {
+	ems.Ess.SetpointPEss = setpointPEss
 }
 
 // define PV power output to smart grid
 func (ems *Ems) SetpointPPv(setpointPPv Watt) {
-	ems.Ppv = setpointPPv
+	ems.Pv.SetpointPPv = setpointPPv
 }
 
 // returns current state of ESS
@@ -50,13 +48,11 @@ func (ems *Ems) Show() {
 	ems.Ess.Show()
 	ems.Pv.Show()
 	ems.Poc.Show()
-	fmt.Println(" pEss : ", ems.Pess, "kW")
-	fmt.Println(" pPv  : ", ems.Ppv, "kW")
 	fmt.Println("}")
 }
 
 // set the initial state of EMS
-func (ems *Ems) IntializeEms(pMaxSite KWatt) *Ems{
+func (ems *Ems) IntializeEms(pMaxSite KWatt) *Ems {
 	var ESS *ess.Ess = new(ess.Ess)
 	var poc *poc.Poc = new(poc.Poc)
 	var pv *pv.Pv = new(pv.Pv)

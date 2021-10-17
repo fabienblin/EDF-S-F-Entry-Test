@@ -18,8 +18,8 @@ const pMaxSite KWatt = 5
 
 // summ of Pess and Ppv
 var pAcBus KWatt
-func setPAcBus(Ppv Watt, Pess KWatt){
-	pAcBus = Pess + WattToKWatt(Ppv)
+func simulatePAcBus(Ppv Watt, Pess KWatt, essExcess KWatt) {
+	pAcBus = Pess + WattToKWatt(Ppv) + essExcess
 }
 
 // verify power distribution
@@ -55,12 +55,13 @@ func main () {
 		// simulate power supplies and demands
 		environment.SimulateEnvironment()
 		EMS.Pv.SimulatePv()
-		EMS.Ess.SimulateEss()
-		setPAcBus(EMS.Pv.Ppv, EMS.Ess.Pess)
+		essExcess := EMS.Ess.SimulateEss()
+		simulatePAcBus(EMS.Pv.Ppv, EMS.Ess.Pess, essExcess)
 		EMS.Poc.SimulatePoc(pAcBus)
 		
 		// core AI descision making
 		EMS.Ai()
+		EMS.SetpointPEss(1)
 		
 		// log environment and smart grid
 		environment.ShowEnvironment()
