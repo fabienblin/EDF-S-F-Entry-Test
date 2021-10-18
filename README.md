@@ -128,11 +128,19 @@ Scenario where to much power is produced in 24h :
 Scenario where to little power is produced in 24h :
 - Share strategy allowing ESS to power during night
 
-**Learn**
+**Learn & Adapt**
 
-The EMS must hold record of previous supplies and demands on the smart grid in order to adapt it's strategy day after day.
-
-Knowing the average of all accessible variables (GetMeasure functions) is usefull to predict supply and demand.
+The main purpose of predicting solar capacity is to give a constant ratio of the facility's demand. This ratio can be deduced after data collecting over time, at least one year. This ratio can vary depending on geographic location of the solar plant. Regions can have micro-climates, terrain incination, altitude etc. Moreover, facilities don't have the same supply/demand ratio, some grids will provide ex. 90% of facility consumption whereas others will provide only 10%.
 
 On a solar power plant, seasons have a major role and knowing the sun's angle in the sky is very beneficial for motorized solar panels in order to face the sun during daytime. This can be achieved using this equation : https://en.wikipedia.org/wiki/Sunrise_equation
+
+The EMS must hold record of previous supplies and demands on the smart grid in order to adapt it's strategy day after day and season after season.
+
+Knowing the average of each accessible variable (GetMeasure functions) is usefull to predict supply and demand. By averaging the sunlight measure at every day of the year, the prediction (at same date) of next year's strategy is made easier.
+
+We also can forecast that the solar power plant can be extended to provide more power. In this case the supply/demand ratio changes and previous measurements become obsolete. To avoid this we should use a data normalization method in order to rescale the dataset. This technique can also be usefull for an ESS upgrade.
+
+The ESS is a tricky component as it can supply and consume power on the smart grid, acting as a buffer. The approche I would suggest is to prioritize discharging in the morning and charging in the evening. This way, if the weather is bad next day, the ESS can still provide power. The ESS doesn't need to be 100% full evey evening, the best charge depends on predicted sunshine for the season. In summer it is expected to have sun every day and in winter the sun is low and scarce, needing more supply.
+
+The pyranometer is usefull to know the day's weather and adapt the share ratio to keep ESS at best charge. It can also help detect defects in the solar park if production goes down compared to predicted/expected production.
 

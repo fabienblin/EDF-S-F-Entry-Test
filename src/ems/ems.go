@@ -80,7 +80,4 @@ func (ems *Ems) GetPPoc() KWatt {
 
 // use only given functions from exercise
 func (ems *Ems) Ai() {
-	// if PV produces more than facility demand : charge ESS
-	// if ESS is full : limit PV production
-	ems.SetpointPPv(1000000)
 }
