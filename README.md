@@ -74,14 +74,51 @@ behavior
 
 ![Alt text](./EMS_sheme.svg)
 
-***
 
-## Sunshine Simulator
+## Environment
+
+**Time**
+
+Environment lib allows `GetHour()` and `NextHour()` to know the current time and add 1h to 24h time cycle. `GetHour()` is used in both sinusoids (sunshine and facility)
+
+**Sunshine**
+
+Sunshine is simulated using the sinusoid bellow and affected buy weather conditions. It is expressed in % (100% at 12h).
+
+Actual `sunshine` is never at 100% due to weather conditions
+
+**Weather**
+
+Two weather variables are randomly set. This is usefull for PV simulation and affects sunshine. Both variables are expressed in % of best weather (a high value is sunny, a low value is cloudy)
+- `dayWeather` is set at midnight every 24h. It defines the day's general weather (cloudy or sunny)
+- `hourWeather` is set every hour and lowers the day's weather by a max factor of 20%
+
+**Sunshine Sinusoid**
 
 ![Alt text](./sunshine_sinusoid.png)
 
-***
 
 ### Facility Simulator
 
+**Facility Pload Sinusoid**
+
+In code this value is negative since it is a consumption. The `Pload` changes every hour by a random factor but never shuts down to 0.
+
 ![Alt text](./facility_sinusoid.png)
+
+### Smart Grid And Components
+
+Each component has a simulation function that allows to self manage power input or output depending on the setPoint configurations sent by the EMS, but also depending on real life physics.
+- ESS can't charge over max capacity, can't discharge under 0, can't charge or discharge more than `PmaxCH` or `Pmaxdisch`
+- PV can't output negative values
+
+### EMS
+
+The EMS is connected to all the smart grid components (ESS, PV and POC) and can perform production/demand limitations on all these components. It's AI can perform different strategies :
+- 50-50%, will half the PV production to fill batteries and power the facility
+- 100% ESS
+- 100% POC
+
+Mainly the EMS must obey this logic :
+- 1: Charge ESS if PV produces more than needed
+- 2: Limit PV output if ESS is fully charged and facility needs are satisfied
