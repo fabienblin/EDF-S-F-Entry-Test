@@ -4,6 +4,7 @@ import (
 	. "libs/emslib"
 	"libs/environment"
 	"fmt"
+	"poc"
 )
 
 type Pv struct {
@@ -47,11 +48,14 @@ func (pv *Pv) simulatePprod() {
 }
 
 // define PV variables depending on environment conditions
-func (pv *Pv) SimulatePv() {
+// return power production
+func (pv *Pv) SimulatePv(poc *poc.Poc) {
 	pv.simulatePpv()
 	pv.simulatePprod()
+	
+	poc.SimulatePoc(WattToKWatt(pv.Ppv))
 }
 
 func (pv *Pv) Show() {
-	fmt.Println(" PV { Ppv :", pv.Ppv, "W ; Pprod :", pv.Pprod, "W/m² ; SetPoint :", pv.SetpointPPv, "kW }")
+	fmt.Println(" PV { Ppv :", pv.Ppv, "W ; Pprod :", pv.Pprod, "W/m² ; SetPoint :", pv.SetpointPPv, "W }")
 }

@@ -10,22 +10,26 @@ type Poc struct {
 	Ppoc KWatt
 }
 
-// protected var must not be used other than with simulateFacilityConsumption() for exercice purposes
+const maxPload KWatt = 5
+
+// negative value
 var pload KWatt
 
-// deifine hidden pload, ranging from 0 to 5 kW
+// deifine hidden pload, ranging from 0 to -5 kW
 func simulatePload() {
-	pload = KWatt(rand.Float64()) * 5
+	pload = -KWatt(rand.Float64()) * maxPload
 }
 
-// simulate visible Ppoc
+// PmaxSite < Ppoc <= 0 must always be true  ; this can't be controlled from here
 func (poc *Poc) simulatePpoc(pAcBus KWatt) {
-	poc.Ppoc = pAcBus + pload
+	poc.Ppoc += pAcBus
 }
 
-func (poc *Poc) SimulatePoc(pAcBus KWatt) {
-	simulatePload()
+func (poc *Poc) SimulatePoc(pAcBus KWatt) KWatt{
+	// simulatePload()
 	poc.simulatePpoc(pAcBus)
+
+	return poc.Ppoc
 }
 
 func (poc *Poc) Show() {
@@ -36,4 +40,8 @@ func ShowFacility() {
 	fmt.Println("FACILITY {")
 	fmt.Println(" Pload :", pload, "kW")
 	fmt.Println("}")
+}
+
+func (poc *Poc) Reset() {
+	poc.Ppoc = pload
 }

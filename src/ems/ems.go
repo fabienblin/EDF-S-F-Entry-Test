@@ -38,8 +38,8 @@ func (ems *Ems) GetPvMeasure() *pv.Pv {
 }
 
 // returns current state of POC
-func (ems *Ems) GetPocMeterMeasure() *poc.Poc {
-	return ems.Poc
+func (ems *Ems) GetPocMeterMeasure() KWatt {
+	return ems.Poc.SimulatePoc(0)
 }
 
 // log the EMS current state

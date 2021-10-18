@@ -16,7 +16,7 @@ re : clean all
 
 dependencies:
 	@echo "Downloading dependencies..."
-	go get -u github.com/fatih/color
+	#go get -u github.com/fatih/color
 
 test: re
 	@echo "Auto run $(BINARY)."
