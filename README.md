@@ -114,11 +114,25 @@ Each component has a simulation function that allows to self manage power input 
 
 ### EMS
 
-The EMS is connected to all the smart grid components (ESS, PV and POC) and can perform production/demand limitations on all these components. It's AI can perform different strategies :
-- 50-50%, will half the PV production to fill batteries and power the facility
-- 100% ESS
-- 100% POC
+**Bascis**
 
-Mainly the EMS must obey this logic :
+The EMS is connected to all the smart grid components (ESS, PV and POC) and can perform production/demand limitations on all these components. It's AI can perform different strategies :
+- Share strategy, will share the PV production to supply ESS and POC
+- All ESS strategy
+- All POC strategy
+
+Scenario where to much power is produced in 24h :
 - 1: Charge ESS if PV produces more than needed
 - 2: Limit PV output if ESS is fully charged and facility needs are satisfied
+
+Scenario where to little power is produced in 24h :
+- Share strategy allowing ESS to power during night
+
+**Learn**
+
+The EMS must hold record of previous supplies and demands on the smart grid in order to adapt it's strategy day after day.
+
+Knowing the average of all accessible variables (GetMeasure functions) is usefull to predict supply and demand.
+
+On a solar power plant, seasons have a major role and knowing the sun's angle in the sky is very beneficial for motorized solar panels in order to face the sun during daytime. This can be achieved using this equation : https://en.wikipedia.org/wiki/Sunrise_equation
+
