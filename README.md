@@ -142,5 +142,5 @@ We also can forecast that the solar power plant can be extended to provide more 
 
 The ESS is a tricky component as it can supply and consume power on the smart grid, acting as a buffer. The approche I would suggest is to prioritize discharging in the morning and charging in the evening. This way, if the weather is bad next day, the ESS can still provide power. The ESS doesn't need to be 100% full evey evening, the best charge depends on predicted sunshine for the season. In summer it is expected to have sun every day and in winter the sun is low and scarce, needing more supply.
 
-The pyranometer is usefull to know the day's weather and adapt the share ratio to keep ESS at best charge. It can also help detect defects in the solar park if production goes down compared to predicted/expected production.
+The pyranometer is usefull to know the day's weather and adapt the share ratio to keep ESS at best charge. With this measure we can better adapt to local sky by predicting weather conditions.
 
