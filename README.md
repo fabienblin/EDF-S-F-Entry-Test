@@ -79,3 +79,9 @@ behavior
 ## Sunshine Simulator
 
 ![Alt text](./sunshine_sinusoid.png)
+
+***
+
+### Facility Simulator
+
+![Alt text](./facility_sinusoid.png)

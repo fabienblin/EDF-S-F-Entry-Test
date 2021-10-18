@@ -14,7 +14,7 @@ type Pv struct {
 }
 
 // constants can be changed to create production scenarios
-const nbSolarPanels int = 100
+const nbSolarPanels int = 500
 const solarPanelSurface int = 6
 const solarTransformationEfficiency float64 = 0.2
 
