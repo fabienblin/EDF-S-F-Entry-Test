@@ -109,7 +109,7 @@ In code this value is negative since it is a consumption. The `Pload` changes ev
 ### Smart Grid And Components
 
 Each component has a simulation function that allows to self manage power input or output depending on the setPoint configurations sent by the EMS, but also depending on real life physics.
-- ESS can't charge over max capacity, can't discharge under 0, can't charge or discharge more than `PmaxCH` or `Pmaxdisch`
+- ESS can't charge over max capacity, can't discharge under 0, can't charge or discharge more than `Pmaxch` or `Pmaxdisch`
 - PV can't output negative values
 
 ### EMS

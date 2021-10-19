@@ -18,6 +18,22 @@ const facilityConsumptionFactor KWatt = 2
 // negative value
 var pload KWatt
 
+
+func ShowFacility() {
+	fmt.Println("FACILITY {")
+	fmt.Println(" Pload :", pload, "kW")
+	fmt.Println("}")
+}
+
+
+
+func (poc *Poc) Reset(newPload bool) {
+	if newPload {
+		simulatePload()
+	}
+	poc.Ppoc = pload
+}
+
 // deifine hidden pload, ranging from 0 to -5 kW
 func simulatePload() {
 	// ranges from -0.1 to -2.1
@@ -37,7 +53,7 @@ func (poc *Poc) simulatePpoc(pAcBus KWatt) {
 
 func (poc *Poc) SimulatePoc(pAcBus KWatt) KWatt{
 	poc.simulatePpoc(pAcBus)
-
+	
 	return poc.Ppoc
 }
 
@@ -45,13 +61,3 @@ func (poc *Poc) Show() {
 	fmt.Println(" POC { Ppoc :", poc.Ppoc, "kW }")
 }
 
-func ShowFacility() {
-	fmt.Println("FACILITY {")
-	fmt.Println(" Pload :", pload, "kW")
-	fmt.Println("}")
-}
-
-func (poc *Poc) Reset() {
-	simulatePload()
-	poc.Ppoc = pload
-}

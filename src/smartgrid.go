@@ -5,33 +5,32 @@ import (
 	. "libs/emslib"
 	"libs/environment"
 	"math/rand"
+	"math"
 	"time"
-	// "pv"
-	// "ess"
 	"ems"
 	"poc"
 	"github.com/fatih/color"
 )
 
 // constants can be changed to create scenarios
-const pMaxSite KWatt = 5
+const pMaxSite KWatt = -8
 
 // verify power distribution
 // knowing (pMaxSite < Ppoc <= 0) must be true at all times
 func verifyPowerLevels(poc *poc.Poc) {
-	var overload bool = (pMaxSite <= poc.Ppoc)
-	var draining bool = (poc.Ppoc < 0)
+	var draining bool = (pMaxSite >= poc.Ppoc && math.Abs(float64(pMaxSite - poc.Ppoc)) > 1e-10)
+	var overload bool = (poc.Ppoc > 0)
 
 	if  overload || draining {
 		color.Set(color.FgRed)
 		fmt.Println("! FAILURE !")
-		if overload {
-			fmt.Print("OVERLOAD : pMaxSite >= Ppoc : ")
-			fmt.Println(pMaxSite, " >= ", poc.Ppoc)
+		if overload{
+			fmt.Print("OVERLOAD : Ppoc > 0 : ")
+			fmt.Println(poc.Ppoc," > 0")
 		}
 		if draining {
-			fmt.Print("DRAINING : Ppoc > 0 : ")
-			fmt.Println(poc.Ppoc," > 0")
+			fmt.Print("DRAINING : pMaxSite >= Ppoc : ")
+			fmt.Println(pMaxSite, " >= ", poc.Ppoc)
 		}
 		color.Unset()
 	} else {
@@ -48,18 +47,23 @@ func main () {
 	for true {
 		// simulate power supplies and demands
 		environment.SimulateEnvironment()
-		EMS.Poc.Reset()
-		EMS.Ess.Reset()
-		EMS.Pv.SimulatePv(EMS.Poc)
+		EMS.Poc.Reset(true) // new pload
+		EMS.Pv.SimulatePv(EMS.Poc, true) // new sunshine
 		EMS.Ess.SimulateEss(EMS.Poc)
 		
+		// core AI descision making
+		EMS.Ai()
+
+		EMS.Poc.Reset(false)
+		EMS.Pv.SimulatePv(EMS.Poc, false)
+		EMS.Ess.SimulateEss(EMS.Poc)
+
 		// log environment and smart grid
 		environment.ShowEnvironment()
 		poc.ShowFacility()
 		EMS.Show()
 
-		// core AI descision making
-		EMS.Ai()
+
 		
 		// log problems
 		verifyPowerLevels(EMS.Poc)

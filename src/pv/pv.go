@@ -16,7 +16,7 @@ type Pv struct {
 // constants can be changed to create production scenarios
 const nbSolarPanels int = 500
 const solarPanelSurface int = 6
-const solarTransformationEfficiency float64 = 0.2
+const solarTransformationEfficiency float64 = 1
 
 var pvPeak KWatt = PvPeak()
 
@@ -28,8 +28,13 @@ func PvPeak() KWatt {
 
 // defines solar park total power output in watts
 // setpoint >= Ppv >= 0 is always true
-func (pv *Pv) simulatePpv() {
-	simPpv := Watt(environment.GetSunShine() * solarTransformationEfficiency * float64(nbSolarPanels))
+func (pv *Pv) simulatePpv(newSunshine bool) {
+	var simPpv Watt
+	if newSunshine {
+		simPpv = Watt(environment.GetSunShine() * solarTransformationEfficiency * float64(nbSolarPanels))
+	} else {
+		simPpv = pv.Ppv
+	}
 
 	if simPpv > pv.SetpointPPv {
 		simPpv = pv.SetpointPPv
@@ -49,9 +54,9 @@ func (pv *Pv) simulatePprod() {
 
 // define PV variables depending on environment conditions
 // return power production
-func (pv *Pv) SimulatePv(poc *poc.Poc) {
-	pv.simulatePpv()
-	pv.simulatePprod()
+func (pv *Pv) SimulatePv(poc *poc.Poc, newSunshine bool) {
+		pv.simulatePpv(newSunshine)
+		pv.simulatePprod()
 	
 	poc.SimulatePoc(WattToKWatt(pv.Ppv))
 }

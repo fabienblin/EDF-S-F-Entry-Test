@@ -18,35 +18,35 @@ type Ems struct {
 }
 
 // define ESS power output to smart grid
-func (ems *Ems) SetpointPEss(setpointPEss KWatt) {
+func (ems *Ems) setpointPEss(setpointPEss KWatt) {
 	ems.Ess.SetpointPEss = setpointPEss
 }
 
 // define PV power output to smart grid
-func (ems *Ems) SetpointPPv(setpointPPv Watt) {
+func (ems *Ems) setpointPPv(setpointPPv Watt) {
 	ems.Pv.SetpointPPv = setpointPPv
 }
 
 // returns current state of ESS
-func (ems *Ems) GetEssMeasure() *ess.Ess {
+func (ems *Ems) getEssMeasure() *ess.Ess {
 	return ems.Ess
 }
 
 // returns current state of PV
-func (ems *Ems) GetPvMeasure() *pv.Pv {
+func (ems *Ems) getPvMeasure() *pv.Pv {
 	return ems.Pv
 }
 
 // returns current state of POC
-func (ems *Ems) GetPocMeterMeasure() KWatt {
+func (ems *Ems) getPocMeterMeasure() KWatt {
 	return ems.Poc.SimulatePoc(0)
 }
 
 // log the EMS current state
 func (ems *Ems) Show() {
 	fmt.Println("EMS {")
-	ems.Ess.Show()
 	ems.Pv.Show()
+	ems.Ess.Show()
 	ems.Poc.Show()
 	fmt.Println("}")
 }
@@ -68,16 +68,47 @@ func (ems *Ems) IntializeEms(pMaxSite KWatt) *Ems {
 
 // returns facility power demand
 // knowing Ppoc = Pess + Ppv + Pload
-func (ems *Ems) GetPLoad() KWatt {
+func (ems *Ems) getPLoad() KWatt {
 	return ems.Poc.Ppoc - ems.Ess.Pess - WattToKWatt(ems.Pv.Ppv)
 }
 
-// returns smart grid power supply/demand
-// knowing Ppoc = Pess + Ppv + Pload
-func (ems *Ems) GetPPoc() KWatt {
-	return ems.Ess.Pess + WattToKWatt(ems.Pv.Ppv) + ems.GetPLoad()
-}
+// pourcent of Ppoc for ESS
+var essShareRatio float64
 
+var initial bool = true
 // use only given functions from exercise
 func (ems *Ems) Ai() {
+	// collect data
+	ems.getEssMeasure()
+	ems.getPocMeterMeasure()
+	ems.getPvMeasure()
+
+	var pvSet KWatt = WattToKWatt(ems.Pv.SetpointPPv)
+	var essSet KWatt = ems.Ess.SetpointPEss
+	if initial {
+		pvSet = 1000
+		essSet = 0
+		initial = false
+	}
+
+	if ems.Poc.Ppoc > 0 { // PV overproductive
+		if ems.Ess.IsFull { // ESS fully charged
+			fmt.Println("STOP PV")
+			pvSet = -ems.getPLoad()
+			essSet = 0
+		} else { // store excess PV prod
+			fmt.Println("STORE EXCESS")
+			pvSet = -ems.getPLoad() - ems.Ess.Pmaxch
+			essSet = -(WattToKWatt(ems.Pv.Ppv) + ems.getPLoad())
+		}
+	} else { // machine learning descision
+		fmt.Println("MACHINE LEARNING")
+	}
+
+	fmt.Println("ems.setpointPPv(KWattToWatt(", pvSet, "))")
+	fmt.Println("ems.setpointPEss(", essSet, ")")
+
+	ems.setpointPEss(essSet)
+	ems.setpointPPv(KWattToWatt(pvSet))
+
 }

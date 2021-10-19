@@ -14,10 +14,11 @@ type Ess struct {
 	Pmaxdisch KWatt
 	Eess      KWattHour
 	SetpointPEss KWatt
+	IsFull bool
 }
 
 // constants can be changed to create scenarios
-const essCapacity KWattHour = 1
+const essCapacity KWattHour = 20
 
 // for initialization
 func randomizeEssCharge() KWattHour {
@@ -27,8 +28,8 @@ func randomizeEssCharge() KWattHour {
 // arbitrary Pmaxch and Pmaxdisch
 func InitializeEss(ess *Ess) {
 	ess.Pess = 0
-	ess.Pmaxch = -1 // must be negative
-	ess.Pmaxdisch = 1
+	ess.Pmaxch = -4 // must be negative
+	ess.Pmaxdisch = 8
 	if essChargeQuery() {
 		ess.Eess = randomizeEssCharge()
 	}
@@ -63,14 +64,16 @@ func (ess *Ess) Show() {
 	fmt.Print("Pmaxdisch : ", ess.Pmaxdisch, " kW ; ")
 	fmt.Print("Eess : ", ess.Eess,  " kWh ; ")
 	fmt.Print("SetPoint : ", ess.SetpointPEss, " kW } ")
-	if ess.Eess == essCapacity {
+	if ess.IsFull {
 		fmt.Println("FULL")
+	} else if ess.Eess == 0 {
+		fmt.Println("EMPTY")
 	} else if ess.Pess < 0 {
 		fmt.Println("CHARGING")
 	} else if ess.Pess > 0 {
 		fmt.Println("DISCHARGING")
 	} else {
-		fmt.Println(" ")
+		fmt.Print("\n")
 	}
 }
 
@@ -82,12 +85,12 @@ func (ess *Ess) simulatePess(poc *poc.Poc) {
 	var simPess KWatt = ess.SetpointPEss
 	
 	if isCharging {
-		pPoc := -poc.Ppoc
+		// pPoc := poc.Ppoc
 		if ess.SetpointPEss < ess.Pmaxch {
 			simPess = ess.Pmaxch
 		}
-		if ess.Pmaxch < pPoc{
-			simPess = pPoc
+		if ess.Pmaxch < poc.Ppoc && poc.Ppoc < 0 {
+			simPess = poc.Ppoc
 		}
 	} else {
 		if ess.SetpointPEss > ess.Pmaxdisch {
@@ -114,6 +117,7 @@ func (ess *Ess) simulateEess() {
 	var excess KWatt = KWatt(ess.Eess - essCapacity)
 	if excess > 0 {
 		ess.Eess = essCapacity
+		ess.IsFull = true
 		if math.Abs(float64(excess + ess.Pess)) < 1e-10 {
 			ess.Pess = 0
 		} else {
